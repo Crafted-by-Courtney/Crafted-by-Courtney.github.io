@@ -1,0 +1,25 @@
+/* Main Content Styles */
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4; /* Grey background color */
+    border-radius: 5px;
+  }
+  
+  .content-section h2 {
+    color: #333; /* Dark grey text color */
+  }
+  
+  /* AddNewItemForm components can be added here as needed */
+  
