@@ -4,6 +4,7 @@ import Navbar from './components/navBar/navBar'; // Import the Navbar component
 import Footer from './components/footer/footer'; // Import the Footer component
 import Banner from './components/banner/banner'; // Import the Banner component
 import MainContent from './components/mainContent/mainContent';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap because my Styling looks like trash
 
 function App() {
   return (
@@ -15,12 +16,8 @@ function App() {
 
       {/* Your main content goes here */}
       <div className="main-content">
-        <h1>Welcome to My Clothing Inventory App</h1>
-        {/* Add other components and content here */}
-      </div>
-      {/* Include the Main Content component */}
       <MainContent />
-
+      </div>
       {/* Include the Footer component */}
       <Footer />
     </div>

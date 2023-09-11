@@ -1,20 +1,21 @@
 /* Banner Styles */
-.banner {
-    /* background-image: url('https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F1189369807%2Fphoto%2Fblack-shirts-on-hangers-in-a-row.jpg%3Fs%3D170667a%26w%3D0%26k%3D20%26c%3Dg6_Lnb364Qh0t_urvKvTtdorXAuEu1sBlERx14tfZwE%3D&tbnid=S185UyPPXQgNyM&vet=12ahUKEwjG5-m23ZiBAxUaE94AHTTNAC0QMyg6egUIARC6Aw..i&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphoto%2Fblack-shirts-on-hangers-in-a-row-gm1189369807-336751581&docid=gWO5FG6eQlsVsM&w=509&h=339&q=black%20and%20white%20closet&ved=2ahUKEwjG5-m23ZiBAxUaE94AHTTNAC0QMyg6egUIARC6Aw');    */
+
+  .banner {
+    background-image: url('https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F1189369807%2Fphoto%2Fblack-shirts-on-hangers-in-a-row.jpg%3Fs%3D170667a%26w%3D0%26k%3D20%26c%3Dg6_Lnb364Qh0t_urvKvTtdorXAuEu1sBlERx14tfZwE%3D&tbnid=S185UyPPXQgNyM&vet=12ahUKEwjG5-m23ZiBAxUaE94AHTTNAC0QMyg6egUIARC6Aw..i&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphoto%2Fblack-shirts-on-hangers-in-a-row-gm1189369807-336751581&docid=gWO5FG6eQlsVsM&w=509&h=339&q=black%20and%20white%20closet&ved=2ahUKEwjG5-m23ZiBAxUaE94AHTTNAC0QMyg6egUIARC6Aw');
     background-size: cover;
     background-position: center;
     color: #fff; /* Text color */
     text-align: center;
-    padding: 80px 0; /* Adjust padding as needed */
+    padding: 20px 0; /* Adjust padding to change banner height */
   }
-  
-  /* .banner-image {
-    display: none; /* Hide the image in the content area */
-   */
   
   .banner-content {
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
     padding: 20px;
+    height: 100%; /* Make the content take the full height of the banner */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center the content */
   }
   
   .banner h2 {
@@ -25,4 +26,5 @@
   .banner p {
     font-size: 18px;
   }
+  
   
