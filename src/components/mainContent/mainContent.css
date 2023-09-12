@@ -19,6 +19,13 @@
   
   .content-section h2 {
     color: #333; /* Dark grey text color */
+    padding: 20px;
+    background-color: #f4f4f4; /* Grey background color */
+    border-radius: 5px;
+  }
+  
+  .content-section h2 {
+    color: #333; /* Dark grey text color */
   }
   
   /* AddNewItemForm components can be added here as needed */

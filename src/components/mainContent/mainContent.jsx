@@ -1,19 +1,54 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './mainContent.css'; // Import your CSS file for the main content styles
 import { Form, Button, Table } from "react-bootstrap";
-import Axios from "axios";
+import axios from "axios";
 
 export default function AddProduct() {
   const apiKey = process.env.REACT_APP_APIKEY;
-
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]); // State to store product categories
   const formData = useRef();
 
+  useEffect(() => {
+    const options = {
+  method: 'GET',
+  url: 'https://apidojo-forever21-v1.p.rapidapi.com/categories/v2/list',
+  headers: {
+    'X-RapidAPI-Key': '7582768e63msh2e8459b3824b6c8p14e2cajsnfc0c87231b3b',
+    'X-RapidAPI-Host': 'apidojo-forever21-v1.p.rapidapi.com'
+  }
+};
+
+	axios.request(options).then((response) => {
+        setCategories(response.data)
+    }).catch((error) => {
+        console.error(error) 
+    })
+
+    // Fetch product categories from the API
+    // axios.get("https://apidojo-forever21-v1.p.rapidapi.com/categories/v2/list", {
+    //   headers: {
+    //     "X-RapidAPI-Host": "apidojo-forever21-v1.p.rapidapi.com",
+    //     "X-RapidAPI-Key": apiKey
+    //   }
+    // })
+    // .then((res) => {
+    //     console.log(res);
+    //   // Check the API response structure and modify this section accordingly
+    //   // For example, if categories are nested inside a 'categories' key:
+    //   const apiCategories = res.data.categories.map((category) => category.name);
+    //   setCategories(apiCategories);
+    // })
+    // .catch((error) => {
+    //   console.error('Error fetching categories:', error);
+    // });
+  }, []);
+
   const fetchData = () => {
-    Axios.get("https://asos2.p.rapidapi.com/categories/list", {
+    axios.get("https://apidojo-forever21-v1.p.rapidapi.com/categories/v2/list", {
       headers: {
-        "X-RapidAPI-Host": "asos2.p.rapidapi.com",
-        "X-RapidAPI-Key": apiKey
+        "X-RapidAPI-Host": "apidojo-forever21-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": '7582768e63msh2e8459b3824b6c8p14e2cajsnfc0c87231b3b'
       }
     })
     .then((res) => {
@@ -29,13 +64,13 @@ export default function AddProduct() {
 
     const newProduct = {
       product_type: formData.current.product_type.value,
-      price: Math.max(0, formData.current.price.value), // Ensure price is not less than 0
-      quantity: Math.max(0, Number(formData.current.qty.value)) // Ensure quantity is not less than 0
+      price: Math.max(0, formData.current.price.value),
+      quantity: Math.max(0, Number(formData.current.qty.value))
     };
 
     setProducts([...products, newProduct]);
 
-    formData.current.product_type.value = ''; // Clear the product type field
+    formData.current.product_type.value = '';
     formData.current.price.value = '';
     formData.current.qty.value = '';
   };
@@ -43,7 +78,6 @@ export default function AddProduct() {
   const incrementQuantity = (index) => {
     const updatedProducts = [...products];
     updatedProducts[index].quantity += 1;
-    // Ensure quantity is not less than 0
     updatedProducts[index].quantity = Math.max(0, updatedProducts[index].quantity);
     setProducts(updatedProducts);
   };
@@ -53,12 +87,9 @@ export default function AddProduct() {
     if (updatedProducts[index].quantity > 0) {
       updatedProducts[index].quantity -= 1;
     }
-    // Ensure quantity is not less than 0
     updatedProducts[index].quantity = Math.max(0, updatedProducts[index].quantity);
     setProducts(updatedProducts);
   };
-
-  const productTypes = ["Dress", "Shirt", "Pants", "Shoes", "Accessories"];
 
   return (
     <div>
@@ -67,9 +98,9 @@ export default function AddProduct() {
           <Form.Label>Product Type:</Form.Label>
           <Form.Control as="select" name="product_type" required>
             <option value="">Select Product Type</option>
-            {productTypes.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
               </option>
             ))}
           </Form.Control>
