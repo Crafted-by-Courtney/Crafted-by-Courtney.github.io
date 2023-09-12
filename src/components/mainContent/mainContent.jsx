@@ -1,139 +1,120 @@
-import React from 'react';
-import ItemList from '../itemList/itemList'; // Import your InventoryList component
-import ItemForm from '../itemForm/itemForm'; // Import your ItemDetails component
-import AddNewItemForm from '../addNewItemForm/addNewItemForm'; // Import your AddNewItemForm component
+import React, { useState, useRef } from 'react';
 import './mainContent.css'; // Import your CSS file for the main content styles
 import { Form, Button, Table } from "react-bootstrap";
-import { useState, createRef } from 'react';
 import Axios from "axios";
 
-// const MainContent = () => {
-//   return (
-//     <div className="main-content">
-//       <h1 className="main-heading">Clothing Inventory</h1>
-
-//       <div className="content-container">
-//         {/* Inventory List */}
-//         <div className="item-list">
-//           <ItemList />
-//         </div>
-
-//         {/* Item Details */}
-//         <div className="item-form">
-//           <h2 className="section-heading">Item Details</h2>
-//           <ItemForm />
-//         </div>
-
-//         {/* Add New Item Form */}
-//         <div className="add-item-form">
-//           <h2 className="section-heading">Add New Item</h2>
-//           <AddNewItemForm />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MainContent;
-
 export default function AddProduct() {
-    // typeOfData [stateData, stateUpdateFunction] = useState(initialData)
-    let initialValue = [];
-    const [products, setProduct] = useState(initialValue);
-    const formData = createRef();
-    // add product handler method
-    const add = (event)=>{
-        event.preventDefault();
-        //console.log(event.target.product_name.value);
-        // const formData = event.target;
-        // const newProduct = {
-        //     product_name: formData.product_name.value,
-        //     price: formData.price.value,
-        //     qty: formData.qty.value
-        // }
-        //console.log(formData.current)
-        const newProduct = {
-            product_name: formData.current.product_name.value,
-            price: formData.current.price.value,
-            qty: Number(formData.current.qty.value)
-        }
-        //console.log(newProduct);
-        // add a new product inside products array
-        setProduct([...products,newProduct]);
-        //console.log(products);
-    }
-    // increment qty value by 1
-    const increQty = (event)=>{
-        //console.log(event.target.value)
-        const indexOfArray = event.target.value;
-        products[indexOfArray].qty = products[indexOfArray].qty + 1;
-        setProduct([...products])
-    }
-    // decrement qty value by 1
-    const decreQty = (event)=>{
-        const indexOfArray = event.target.value;
-        products[indexOfArray].qty = products[indexOfArray].qty - 1;
-        setProduct([...products])
-    }
+  const apiKey = process.env.REACT_APP_APIKEY;
 
-    function asosAPI() {
-        const fetchData =() => {
-            Axios.get(`https://asos2.p.rapidapi.com/categories/list ${products}`).then((res) => {
-                console.log(res.data);
-            });
-        };
+  const [products, setProducts] = useState([]);
+  const formData = useRef();
+
+  const fetchData = () => {
+    Axios.get("https://asos2.p.rapidapi.com/categories/list", {
+      headers: {
+        "X-RapidAPI-Host": "asos2.p.rapidapi.com",
+        "X-RapidAPI-Key": apiKey
+      }
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+  };
+
+  const addProduct = (event) => {
+    event.preventDefault();
+
+    const newProduct = {
+      product_type: formData.current.product_type.value,
+      price: Math.max(0, formData.current.price.value), // Ensure price is not less than 0
+      quantity: Math.max(0, Number(formData.current.qty.value)) // Ensure quantity is not less than 0
+    };
+
+    setProducts([...products, newProduct]);
+
+    formData.current.product_type.value = ''; // Clear the product type field
+    formData.current.price.value = '';
+    formData.current.qty.value = '';
+  };
+
+  const incrementQuantity = (index) => {
+    const updatedProducts = [...products];
+    updatedProducts[index].quantity += 1;
+    // Ensure quantity is not less than 0
+    updatedProducts[index].quantity = Math.max(0, updatedProducts[index].quantity);
+    setProducts(updatedProducts);
+  };
+
+  const decrementQuantity = (index) => {
+    const updatedProducts = [...products];
+    if (updatedProducts[index].quantity > 0) {
+      updatedProducts[index].quantity -= 1;
     }
-    return (
-        <div>
-            <Form onSubmit={add} ref={formData}>
-            <Form.Group controlId="formBasicProductName">
-                <Form.Label>Product Type:</Form.Label>
-                <Form.Control type="text" placeholder="Enter Product Type" onChange={(event) => {setProduct(event.target.value)}} name="product_name"/>
-            </Form.Group>
+    // Ensure quantity is not less than 0
+    updatedProducts[index].quantity = Math.max(0, updatedProducts[index].quantity);
+    setProducts(updatedProducts);
+  };
 
-            <Form.Group controlId="formBasicPrice">
-                <Form.Label>Price:</Form.Label>
-                <Form.Control type="number" placeholder="Price" name="price"/>
-            </Form.Group>
+  const productTypes = ["Dress", "Shirt", "Pants", "Shoes", "Accessories"];
 
-            <Form.Group controlId="formBasicQty">
-                <Form.Label>Quantity:</Form.Label>
-                <Form.Control type="number" placeholder="How many:  #" name="qty"/>
-            </Form.Group>
+  return (
+    <div>
+      <Form onSubmit={addProduct} ref={formData}>
+        <Form.Group controlId="formBasicProductType">
+          <Form.Label>Product Type:</Form.Label>
+          <Form.Control as="select" name="product_type" required>
+            <option value="">Select Product Type</option>
+            {productTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
 
-            <Button onClick={fetchData} variant="primary" type="submit">
-                Add to Inventory
-            </Button>
-            </Form>
-            <Table striped bordered hover variant="dark">
-            <thead>
-                <tr>
-                    <th>Index</th>
-                    <th>Product Type:</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Add or Subtract</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    products.map((item, index)=>{
-                        return(
-                            <tr key={index}>
-                                <td>{index}</td>
-                                <td>{item.product_type}</td>
-                                <td>{item.price}</td>
-                                <td>{item.quantity}</td>
-                                <td>
-                                    <Button variant="success" onClick={event=>increQty(event)} value={index}>+</Button>
-                                    <Button variant="danger" onClick={event => decreQty(event)} value={index}>-</Button>
-                                </td>
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>
-            </Table>
-        </div>
-    )
+        <Form.Group controlId="formBasicPrice">
+          <Form.Label>Price:</Form.Label>
+          <Form.Control type="number" placeholder="Ex. 300..." name="price" required />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicQty">
+          <Form.Label>Quantity:</Form.Label>
+          <Form.Control type="number" placeholder="How many: #" name="qty" required />
+        </Form.Group>
+
+        <Button onClick={fetchData} variant="primary" type="submit">
+          Add to Inventory
+        </Button>
+      </Form>
+
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th>Product Type</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Add or Subtract</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((item, index) => (
+            <tr key={index}>
+              <td>{index}</td>
+              <td>{item.product_type}</td>
+              <td>{item.price}</td>
+              <td>{item.quantity}</td>
+              <td>
+                <Button variant="success" onClick={() => incrementQuantity(index)}>+</Button>
+                <Button variant="danger" onClick={() => decrementQuantity(index)}>-</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
 }
