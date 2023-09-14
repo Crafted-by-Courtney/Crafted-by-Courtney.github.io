@@ -77,4 +77,4 @@ Update State: If I identify the correct structure, make sure to update state (in
 
 The goal is to ensure that the code correctly handles the API response, regardless of its structure. By inspecting the response and adapting the code accordingly, I can make sure that the application works as intended with the specific API in use.
 
-Resources: https://www.youtube.com/watch?v=Mnz_Qpl5Q_s, https://react-bootstrap.netlify.app/, https://www.freecodecamp.org/news/how-to-use-axios-with-react/, 
+Resources: https://www.youtube.com/watch?v=Mnz_Qpl5Q_s, https://react-bootstrap.netlify.app/, https://www.freecodecamp.org/news/how-to-use-axios-with-react/, https://stackoverflow.com/questions/72891010/react-populating-select-dropdown-options-from-an-api-call, https://pages.github.com/?(null), https://apielements.org/en/latest/element-definitions.html
