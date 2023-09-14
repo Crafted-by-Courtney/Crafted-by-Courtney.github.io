@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+Issues are major. The focus of the project was to learn how to use an API to retrieve information from a database and insert it into an application. The code in this project has not achieved that. 
+I'll need to adapt the code to correctly parse and extract the data you need. If the structure is different, I may need to access the data in a different way.
+
+Update State: If I identify the correct structure, make sure to update state (in this case, the categories state) with the appropriate data format.
+
+The goal is to ensure that the code correctly handles the API response, regardless of its structure. By inspecting the response and adapting the code accordingly, I can make sure that the application works as intended with the specific API in use.
+
+Resources: https://www.youtube.com/watch?v=Mnz_Qpl5Q_s, https://react-bootstrap.netlify.app/, https://www.freecodecamp.org/news/how-to-use-axios-with-react/, 
